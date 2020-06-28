@@ -1,0 +1,634 @@
+MAIN CLASS THAT RUNS THE GAME>>>>>>
+
+import java.util.*;
+
+public class Main {
+
+    private static char[][] board = new char[3][3];
+
+    public static void main( String[] args )
+    {
+        Scanner keyboard = new Scanner(System.in);
+        char player1 = 'X', player2 = 'O';
+        int turn = 1;
+
+        initBoard();
+        displayBoard();
+
+        while ( true )
+        {
+            System.out.println( "Turn " + turn + "..." );
+            if ( turn % 2 != 0 )
+            {
+                playerChoice(player1);
+                turn++;
+            }
+            else
+            {
+                playerChoice(player2);
+                turn++;
+            }
+            displayBoard();
+
+            // check for game end
+            if ( winGame(player1) )
+            {
+                System.out.println( "'" + player1 + "' wins the game!" );
+                break;
+            }
+            else if ( winGame(player2) )
+            {
+                System.out.println( "'" + player2 + "' wins the game!" );
+                break;
+            }
+            else if ( turn > 9 )
+            {
+                System.out.println( "This game is a tie." );
+                break;
+            }
+
+        }
+
+    }
+
+    public static void initBoard()
+    {
+        // fills up the board with blanks
+        for ( int r=0; r<3; r++ )
+            for ( int c=0; c<3; c++ )
+                board[r][c] = ' ';
+    }
+
+
+    public static void displayBoard()
+    {
+        System.out.println();
+        System.out.println("  0  " + board[0][0] + " | " + board[0][1] + " | " + board[0][2]);
+        System.out.println("    ---+---+---");
+        System.out.println("  1  " + board[1][0] + " | " + board[1][1] + " | " + board[1][2]);
+        System.out.println("    ---+---+---");
+        System.out.println("  2  " + board[2][0] + " | " + board[2][1] + " | " + board[2][2]);
+        System.out.println("     0   1   2\n");
+    }
+
+
+    public static void displayBoard2()
+    {
+        for ( int r=0; r<3; r++ )
+        {
+            System.out.print("\t"+r+" ");
+            for ( int c=0; c<3; c++ )
+            {
+                System.out.print( board[r][c] + " " );
+            }
+            System.out.println();
+        }
+        System.out.println("\t  0 1 2 ");
+    }
+
+    public static void playerChoice( char player )
+    {
+        Scanner kb = new Scanner(System.in);
+        int row, column;
+
+        System.out.print( "'" + player + "', choose your location (row, column): " );
+        row = kb.nextInt();
+        column = kb.nextInt();
+
+        board[row][column] = player;
+    }
+    // How to determine a winner
+    public static boolean winGame( char player )
+    {
+        // check horizontal
+        for ( int r = 0; r < 3; r++ )
+        {
+            if ( player == board[r][0] && board[r][0] == board[r][1] && board[r][1] == board[r][2] )
+                return true;
+        }
+
+        // check vertical
+        for ( int c = 0; c < 3; c++ )
+        {
+            if ( player == board[0][c] && board[0][c] == board[1][c] && board[1][c] == board[2][c] )
+                return true;
+        }
+
+        // check diagonal
+        if ( player == board[0][0] && board[0][0] == board[1][1] && board[1][1] == board[2][2] )
+            return true;
+        else if ( player == board[0][2] && board[0][2] == board[1][1] && board[1][1] == board[2][0] )
+            return true;
+
+
+        return false;
+    }
+    //Checking if placement is valid
+    public boolean isValid( int r, int c )
+    {
+        if ( 0 <= r && r <= 2 && 0 <= c && c <= 2 )
+            return true;
+
+        else
+            return false;
+
+
+        // IMPORTANT: make sure to input an int between 0-2 for row space then input an int between 0-2 FOR GAME TO WORK PROPERLY!!
+        // EXAMPLE 1: 0 1
+        // EXAMPLE 2: 1 2
+        // EXAMPLE 3: 2 0
+    }
+
+}
+
+
+
+
+GAME OBJECTS CLASS >>>>>>>>>>>>>>>>>>>>>.
+
+
+
+public class TicTacToeClass
+{
+    // Instance Variables
+    private char[][] board;
+    private int turns;
+
+    // Constructors
+    public TicTacToeClass()
+    {
+        board = new char[3][3];
+        turns = 0;
+
+        for ( int r=0; r<3; r++ )
+            for ( int c=0; c<3; c++ )
+                board[r][c] = ' ';
+    }
+
+    // Accessor Methods
+
+    public boolean isWinner( char p )
+    {
+        return false;
+    }
+
+    public boolean isFull()
+    {
+        return false;
+    }
+
+    public boolean isCat()
+    {
+        return false;
+    }
+
+    public boolean isValid( int r, int c )
+    {
+        if ( 0 <= r && r <= 2 && 0 <= c && c <= 2 )
+            return true;
+        else
+            return false;
+    }
+
+    public int numTurns()
+    {
+        return turns;
+    }
+
+    public char playerAt( int r, int c )
+    {
+        if ( isValid(r,c) )
+            return board[r][c];
+        else
+            return '@';
+    }
+
+    public void displayBoard()
+    {
+        System.out.println("  0  " + board[0][0] + "|" + board[0][1] + "|" + board[0][2]);
+        System.out.println("    --+-+--");
+        System.out.println("  1  " + board[1][0] + "|" + board[1][1] + "|" + board[1][2]);
+        System.out.println("    --+-+--");
+        System.out.println("  2  " + board[2][0] + "|" + board[2][1] + "|" + board[2][2]);
+        System.out.println("     0 1 2 ");
+    }
+
+    // Modifiers
+    public void playMove( char p, int r, int c )
+    {
+    }
+
+}
+
+
+
+GUI >>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+package com.tts;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+import javax.swing.*;
+
+public class TicTacToeGUI extends Canvas implements MouseListener
+{
+    public static void main(String args[])
+    {
+        JFrame win = new JFrame("Tic Tac Toe");
+        win.setSize(800,800);
+        win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        win.add( new TicTacToeGUI() );
+        win.setVisible(true);
+    }
+
+    private char player = 'X';
+    private TicTacToeClass ttt;
+    private boolean started = false;
+    private boolean gameOver = false;
+
+    public TicTacToeGUI()
+    {
+        addMouseListener(this);
+        ttt = new TicTacToeClass();
+    }
+
+    public void paint( Graphics g )
+    {
+        g.setColor( Color.white );
+        g.fillRect( 0, 0, 800, 800 );
+
+        if ( ! started )
+        {
+            g.setColor( Color.black );
+            g.setFont( new Font("Arial", Font.BOLD, 48) );
+            g.drawString( "click to play", 275, 400 );
+        }
+        else
+        {
+            drawEmptyBoard(g);
+            for ( int r=0; r<3; r++ )
+                for ( int c=0; c<3; c++ )
+                    if ( ttt.playerAt(r,c) != ' ' )
+                        drawSymbol(g, ttt.playerAt(r,c), r, c);
+
+            gameOver = ( ttt.isWinner('X') || ttt.isWinner('O') || ttt.isFull() );
+            if ( gameOver )
+            {
+                g.setFont( new Font("Arial", Font.BOLD, 144) );
+                g.setColor( Color.black );
+                if ( ttt.isWinner('X') )
+                    g.drawString("X wins!", 160, 400);
+                if ( ttt.isWinner('O') )
+                    g.drawString("O wins!", 160, 400);
+                if ( ttt.isCat() )
+                    g.drawString("TIE GAME", 50, 400);
+            }
+            else
+            {
+                g.setFont( new Font("Arial", Font.BOLD, 72) );
+                g.setColor( Color.black );
+                g.drawString( player + ", go.", 10, 730 );
+            }
+        }
+
+
+    }
+
+    public void drawEmptyBoard( Graphics g )
+    {
+        g.setColor(Color.black);
+        // horizontal lines
+        g.drawLine(100,250,700,250);
+        g.drawLine(100,450,700,450);
+        // vertical lines
+        g.drawLine(300,50,300,650);
+        g.drawLine(500,50,500,650);
+        // labels
+        g.drawString("(0,0)",102,62);
+        g.drawString("(1,0)",102,262);
+        g.drawString("(2,0)",102,462);
+
+        g.drawString("(0,1)",302,62);
+        g.drawString("(1,1)",302,262);
+        g.drawString("(2,1)",302,462);
+
+        g.drawString("(0,2)",502,62);
+        g.drawString("(1,2)",502,262);
+        g.drawString("(2,2)",502,462);
+    }
+
+    public void drawSymbol( Graphics g, char p, int r, int c )
+    {
+        int x = 200*c + 125;
+        int y = 200*r + 85;
+        if ( p == 'X' )
+            drawX(g,x,y);
+        else if ( p == 'O' )
+            drawO(g,x,y);
+        else
+            drawError(g,x,y);
+    }
+
+    public void drawX( Graphics g, int x, int y )
+    {
+        g.setColor(Color.red);
+        g.drawLine(x,y,x+150,y+150);
+        g.drawLine(x+150,y,x,y+150);
+    }
+
+    public void drawO( Graphics g, int x, int y )
+    {
+        g.setColor(Color.blue);
+        g.drawOval(x,y,150,150);
+    }
+
+    public void drawError( Graphics g, int x, int y )
+    {
+        // debugging code, in case drawSymbol is called with something other
+        //   than 'X' or 'O'
+        g.setColor(Color.red);
+        g.fill3DRect(x-2,y-2,155,155,true);
+        g.setColor(Color.yellow);
+        g.fillArc(x,y,150,150,0,90);
+        g.fillArc(x,y,150,150,180,90);
+        g.setColor(Color.orange);
+        g.fillArc(x,y,150,150,90,90);
+        g.fillArc(x,y,150,150,270,90);
+    }
+
+    public void mouseClicked( MouseEvent evt )
+    {
+        int x = evt.getX();
+        int y = evt.getY();
+
+        if ( gameOver )
+        {
+            started = false;
+            gameOver = false;
+            ttt = new TicTacToeClass();
+            repaint();
+            return;
+        }
+
+        if ( ! started )
+        {
+            started = true;
+            repaint();
+            return;
+        }
+
+        int r = (y-85) / 200;
+        int c = (x-125) / 200;
+
+        if ( ttt.playerAt(r,c) == ' ' )
+        {
+            ttt.playMove(player,r,c);
+            player = ( player == 'X' ? 'O' : 'X' );
+        }
+        repaint();
+    }
+
+    public void mousePressed ( MouseEvent evt ) {}
+    public void mouseReleased( MouseEvent evt ) {}
+    public void mouseEntered ( MouseEvent evt ) {}
+    public void mouseExited  ( MouseEvent evt ) {}
+}
+
+
+
+
+
+ANOTHER WAY TO RUN THE GAME >>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+package com.tts;
+
+import java.util.Scanner;
+
+public class TicTacToeRunner
+{
+    public static void main( String[] args )
+    {
+        Scanner keyboard = new Scanner(System.in);
+
+        char p = 'X';
+        TicTacToeClass ttt = new TicTacToeClass();
+        int r, c;
+
+        while ( ! ( ttt.isWinner('X') || ttt.isWinner('O') || ttt.isFull() ) )
+        {
+            ttt.displayBoard();
+            System.out.print( "'" + p + "', choose your location (row, column): " );
+            r = keyboard.nextInt();
+            c = keyboard.nextInt();
+
+            while ( ttt.isValid(r,c) == false || ttt.playerAt(r,c) != ' ' )
+            {
+                if ( ttt.isValid(r,c) == false )
+                    System.out.println("That is not a valid location. Try again.");
+                else if ( ttt.playerAt(r,c) != ' ' )
+                    System.out.println("That location is already full. Try again.");
+
+                System.out.print( "Choose your location (row, column): " );
+                r = keyboard.nextInt();
+                c = keyboard.nextInt();
+            }
+
+            ttt.playMove( p, r, c );
+
+            if ( p == 'X' )
+                p = 'O';
+            else
+                p = 'X';
+
+        }
+
+        ttt.displayBoard();
+
+        if ( ttt.isWinner('X') )
+            System.out.println("X is the winner!");
+        if ( ttt.isWinner('O') )
+            System.out.println("O is the winner!");
+        if ( ttt.isCat() )
+            System.out.println("The game is a tie.");
+
+    }
+}
+
+
+
+
+A TESTER TO TEST FOR ACCURACY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+package com.tts;
+
+import java.util.Arrays;
+
+public class TicTacToeTester
+{
+    private static TicTacToeClass ttt;
+
+    public static void main( String[] args )
+    {
+        // constructor
+        System.out.print("Checking constructor....................................................");
+        ttt = new TicTacToeClass();
+        check( "numTurns()",    ttt.numTurns(),    0 );
+        check( "isWinner('X')", ttt.isWinner('X'), false );
+        check( "isWinner('O')", ttt.isWinner('O'), false );
+        check( "isCat()",       ttt.isCat(),       false );
+        check( "isFull()",      ttt.isFull(),      false );
+        System.out.println("  [ok]");
+
+        // is Valid
+        int trials = 0;
+        System.out.print("Checking isValid()...");
+        for ( int r = -100; r<=100; r++ )
+            for ( int c = -100; c<=100; c++ )
+            {
+                check( "isValid("+r+","+c+")", ttt.isValid(r,c), ( 0 <= r && r < 3 && 0 <= c && c < 3 ) );
+                if ( ++trials % 777 == 0 ) System.out.print(".");
+            }
+
+        System.out.println("  [ok]");
+
+        // play every possible game of Tic-Tac-Toe to make sure it's scoring right
+
+        byte[] game = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        int[] cells = { 0, 1, 2, 4, 8, 16, 32, 64, 128, 256 };
+        int n = 0, i;
+        boolean gameOver = false;
+        char p = 'X';
+        int r, c, winner = 3;
+        int xTotal = 0, oTotal = 0;
+        boolean xWin, oWin, gato;
+        trials = 0;
+
+        System.out.print("Checking isWinner()...");
+        while ( game[0] < 10 )
+        {
+            // play a single game
+            ttt = new TicTacToeClass();
+            n = 0;
+            xTotal = oTotal = 0;
+            for ( byte b : game )
+            {
+                r = (b-1) / 3;
+                c = (b-1) % 3;
+                ttt.playMove(p,r,c);
+
+                if ( p == 'X' )
+                    xTotal += cells[b];
+                else
+                    oTotal += cells[b];
+
+                n++;
+                xWin = ( Arrays.binarySearch(winPatterns,xTotal) >= 0 );
+                oWin = ( Arrays.binarySearch(winPatterns,oTotal) >= 0 );
+                gato = ( ! xWin && ! oWin && n == 9 );
+
+                check( "numTurns()",    ttt.numTurns(),    n );
+                check( "isWinner('X')", ttt.isWinner('X'), xWin );
+                check( "isWinner('O')", ttt.isWinner('O'), oWin );
+                check( "isCat()",       ttt.isCat(),       gato );
+                check( "isFull()",      ttt.isFull(),      n == 9 );
+
+                p = ( p == 'X' ? 'O' : 'X' );
+
+                if ( xWin || oWin )
+                    break;
+            }
+
+            trials++;
+            if ( trials % 7200 == 0 )
+                System.out.print(".");
+
+            next_permutation( game );
+        }
+        System.out.println("  [ok]");
+        System.out.println("\nAll tests passed!\n");
+
+    }
+
+    private static void check( String property, boolean is, boolean shouldbe )
+    {
+        if ( is != shouldbe )
+        {
+            System.out.println("\n\tFATAL ERROR: " + property + " returns " + is + ", but should be " + shouldbe);
+            ttt.displayBoard();
+            System.exit(1);
+        }
+    }
+
+    private static void check( String property, int is, int shouldbe )
+    {
+        if ( is != shouldbe )
+        {
+            System.out.println("\n\tFATAL ERROR: " + property + " returns " + is + ", but should be " + shouldbe);
+            ttt.displayBoard();
+            System.exit(1);
+        }
+    }
+
+
+    private static boolean unique( byte[] a )
+    {
+        if ( a[0] == 10 ) return true;
+
+        boolean[] used = new boolean[10];
+
+        for ( int i=0; i<a.length; ++i )
+            if ( used[ a[i] ] )
+                return false;
+            else
+                used[ a[i] ] = true;
+
+        return true;
+    }
+
+
+    private static void increment( byte[] a )
+    {
+        a[a.length-1]++;
+        for ( int i=a.length-1; i>0; --i )
+            if ( a[i] >= 10 )
+            {
+                a[i] = 1;
+                a[i-1]++;
+            }
+    }
+
+
+    private static void next_permutation( byte[] a )
+    {
+        do
+        {
+            increment( a );
+        } while ( ! unique(a) );
+    }
+
+    private static int[] winPatterns = {
+            7,  15,  23,  39,  56,  57,  58,  60,  71,  73,  75,  77,  79,
+            84,  85,  86,  87,  89,  92,  93,  94, 103, 105, 107, 116, 117,
+            118, 120, 121, 122, 124, 135, 143, 146, 147, 150, 151, 154, 158,
+            167, 178, 179, 184, 185, 186, 188, 201, 205, 210, 212, 213, 214,
+            220, 233, 242, 244, 263, 271, 273, 275, 277, 279, 281, 283, 285,
+            292, 293, 294, 295, 300, 302, 305, 307, 308, 309, 312, 313, 314,
+            316, 329, 331, 337, 339, 340, 341, 342, 345, 348, 356, 358, 369,
+            372, 401, 402, 403, 405, 409, 410, 420, 421, 428, 433, 448, 449,
+            450, 452, 456, 457, 458, 460, 464, 465, 466, 468, 480, 481, 482, 484
+    };
+
+
+
+}
+
+
